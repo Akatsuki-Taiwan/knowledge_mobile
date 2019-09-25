@@ -11,22 +11,23 @@ class UserModel {
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
-//      'openid',
-//      'profile',
+      'openid',
+      'profile',
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 
-  bool _signedIn = false;
+  GoogleSignInAccount _currentUser;
 
-  bool get signedIn {
-    return _signedIn;
-  }
+//  bool get signedIn {
+//    return _signedIn;
+//  }
 
-  void checkSignedIn() {
-    _googleSignIn.isSignedIn().then((signedIn) {
-      _signedIn = signedIn;
-    });
+
+  Future<bool> checkSignedIn() async {
+//    _googleSignIn.isSignedIn().then((signedIn) {
+//      _signedIn = signedIn;
+//    });
   }
 
   void signIn() async {

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'scene/home.dart';
-import 'model/user.dart';
+import 'scene/login.dart';
 
 void main() {
-  UserModel().checkSignedIn();
   runApp(MyApp());
 }
 
@@ -22,7 +20,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScene(title: 'Flutter Demo Home Page'),
+      home: LoginScene(title: 'Login'),
     );
   }
 }
