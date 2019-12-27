@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:akatsuki_books/model/user.dart';
+import 'package:Books/model/user.dart';
 
 class LoginScene extends StatefulWidget {
   LoginScene({Key key, this.title}) : super(key: key);

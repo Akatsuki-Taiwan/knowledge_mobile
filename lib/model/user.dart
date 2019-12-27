@@ -1,5 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserModel {
   static final UserModel _singleton = UserModel._internal();
@@ -8,7 +8,7 @@ class UserModel {
   }
   UserModel._internal();
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email',
       'openid',
@@ -16,25 +16,24 @@ class UserModel {
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  GoogleSignInAccount _currentUser;
-
-//  bool get signedIn {
-//    return _signedIn;
-//  }
-
-
-  Future<bool> checkSignedIn() async {
-//    _googleSignIn.isSignedIn().then((signedIn) {
-//      _signedIn = signedIn;
-//    });
+  Future<bool> isSignedIn() async {
+    return _googleSignIn.isSignedIn();
   }
 
-  void signIn() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
+  Future<FirebaseUser> signIn() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+    print("signed in: ${user.displayName}");
+    print("token: ${user.getIdToken()}");
+    return user;
   }
 }
